@@ -6,3 +6,8 @@ target/
 *.log
 /node_modules/
 .env
+/.idea/
+/.node_modules/
+/target/
+/*.log
+/*.iml
