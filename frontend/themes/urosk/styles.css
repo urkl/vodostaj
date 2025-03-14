@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+
+:root {
+    --lumo-font-family:'Ubuntu', 'Lato' , 'Montserrat', 'Roboto', sans-serif;
+}
+
+.login-view {
+    background-image: url("images/vodostaj.png");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+}
+.compact-paragraph {
+    margin-block-start: var(--lumo-space-xxs); /* Manjši razmik na vrhu */
+    margin-block-end: var(--lumo-space-xxs);   /* Manjši razmik na dnu */
+}
+
+
+
+[part="navbar"] {
+    background-color:hsl(214, 35%, 21%) !important;
+    color: white;
+}
+
+vaadin-drawer-toggle {
+    background-color: hsl(214, 35%, 21%) !important;
+    color: white !important;
+}
+
+vaadin-app-layout::part(navbar) {
+    background-color:hsl(214, 35%, 21%) !important;
+}
+
+
+.flow-annotation{
+    font-weight: bold;
+    font-family: var(--lumo-font-family);
+
+}

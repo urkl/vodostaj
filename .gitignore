@@ -1,0 +1,8 @@
+
+.idea/
+frontend/generated/
+.node_modules/
+target/
+*.log
+/node_modules/
+.env
