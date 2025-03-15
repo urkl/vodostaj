@@ -1,21 +1,20 @@
 package net.urosk.alarm.views;
 
-import com.github.appreciated.apexcharts.ApexCharts;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
 import net.urosk.alarm.components.DetailedStationDataAndChartComponent;
 import net.urosk.alarm.components.SparklineChart;
-import net.urosk.alarm.components.StationChartComponent;
 import net.urosk.alarm.components.TrendIndicator;
-import net.urosk.alarm.models.Alarm;
 import net.urosk.alarm.models.Station;
 import net.urosk.alarm.models.WaterLevel;
 import net.urosk.alarm.services.AlarmService;
@@ -25,9 +24,9 @@ import net.urosk.alarm.services.WaterLevelService;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static net.urosk.alarm.lib.UiUtils.*;
+import static net.urosk.alarm.lib.UiUtils.getFormatedNumber;
+import static net.urosk.alarm.lib.UiUtils.hr;
 
 @PageTitle("Vse reke")
 @PermitAll
@@ -62,11 +61,6 @@ public class LargeFlowView extends AbstractView {
         Checkbox showOnlyOverFlow = new Checkbox("Prikaži samo postaje z alarmnimi nivoji");
 
         HorizontalLayout toolbar = new HorizontalLayout();
-//
-//        Button buttonUpTrend = new Button(TrendIndicator.getUpTrendIcon());
-//        Button buttonDownTrend = new Button(TrendIndicator.getDownTrendIcon());
-//        Button buttonEqualTrend = new Button(TrendIndicator.getEqualTrendIcon());
-
         toolbar.add(showOnlyOverFlow);
 
 
@@ -99,13 +93,13 @@ public class LargeFlowView extends AbstractView {
                 .setAutoWidth(true);
 
         overFlowStationsGrid.addColumn(new ComponentRenderer<>(station ->
-                new SparklineChart(station.getFlowHistory())
-        )).setHeader("Trend pretoka (5)").setAutoWidth(true)
-                .setTooltipGenerator(station -> "Trend pretoka za postajo " + station.getName() +" Zadnjih 5 meritev");
+                        new SparklineChart(station.getFlowHistory())
+                )).setHeader("Trend pretoka (5)").setAutoWidth(true)
+                .setTooltipGenerator(station -> "Trend pretoka za postajo " + station.getName() + " Zadnjih 5 meritev");
 
         overFlowStationsGrid.addColumn(new ComponentRenderer<>(station ->
-                new TrendIndicator(station.getFlowHistory()))).setHeader("Trend pretoka (2)").setAutoWidth(true)
-                .setTooltipGenerator(station -> "Trend pretoka za postajo " + station.getName() +" Zadnji 2 meritvi");
+                        new TrendIndicator(station.getFlowHistory()))).setHeader("Trend pretoka (2)").setAutoWidth(true)
+                .setTooltipGenerator(station -> "Trend pretoka za postajo " + station.getName() + " Zadnji 2 meritvi");
 
 
         overFlowStationsGrid.addColumn(f -> getFormatedNumber(f.getTempCurrentLevel())).setHeader("Višina [cm]").setAutoWidth(true);
@@ -139,22 +133,19 @@ public class LargeFlowView extends AbstractView {
             Collections.reverse(waterLevels);
 
 
-
-
             DetailedStationDataAndChartComponent chart = new DetailedStationDataAndChartComponent(
                     station.getId(),
                     waterLevelService,
                     stationsService,
                     alarmService,
                     userService
-                    );
+            );
 
 
-            detailsLayout.add( chart);
+            detailsLayout.add(chart);
 
             return detailsLayout;
         }));
-
 
 
         overFlowStationsGrid.setItems(stationsService.getStationCache());
@@ -201,7 +192,7 @@ public class LargeFlowView extends AbstractView {
     private Div createDetailRow(String label, String value, String badgeColor) {
         Div row = new Div();
         row.getStyle().set("margin", "4px 0");
-        // Badge z oznako
+
         Span badge = new Span(label + ": ");
         badge.getStyle().set("padding", "2px 6px");
         badge.getStyle().set("border-radius", "4px");
@@ -209,7 +200,7 @@ public class LargeFlowView extends AbstractView {
         badge.getStyle().set("color", "white");
         badge.getStyle().set("font-weight", "bold");
         badge.getStyle().set("margin-right", "6px");
-        // Vrednost
+
         Span valueSpan = new Span(value);
         row.add(badge, valueSpan);
         return row;

@@ -2,6 +2,7 @@ package net.urosk.alarm.services;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;
+import lombok.Getter;
 import net.urosk.alarm.models.User;
 import net.urosk.alarm.repositories.UserRepository;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    @Getter
     private final UserSettingsService userSettingsService;
 
     public UserService(UserRepository userRepository, UserSettingsService userSettingsService) {
@@ -60,7 +62,4 @@ public class UserService {
 
     }
 
-    public UserSettingsService getUserSettingsService() {
-        return userSettingsService;
-    }
 }

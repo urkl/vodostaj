@@ -160,6 +160,12 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
         nav.addItem(applePush);
 
 
+        SideNavItem code = new SideNavItem("Koda", HelpView.class, new RouteParameters("md", "code"));
+        code.getElement().setAttribute("title", "Poglej kodo na githubu, predlagaj izboljšave ali poročaj o napakah.");
+
+        nav.addItem(code);
+
+
         nav.addItem(new SideNavItem(""));
         nav.addItem(new SideNavItem("","/login?logout", logoutButton));
 

@@ -44,7 +44,7 @@ import static net.urosk.alarm.views.AlarmView.NotificationMethod.telegram;
 
 @PageTitle("Moji alarmi")
 @PermitAll
-@Route(value = "moji-alarmi", layout = MainLayout.class)  // <--- DODANO layout
+@Route(value = "moji-alarmi", layout = MainLayout.class)
 public class AlarmView extends AbstractView {
     private static final String ICON_SIZE = "32px";
     private static final String ICON_COLOR = "var(--lumo-body-text-color)";
@@ -152,7 +152,7 @@ public class AlarmView extends AbstractView {
         Button saveButtonAsNew = new Button("Shrani kot Novega", event -> save(true));
 
         HorizontalLayout buttonLayout = new HorizontalLayout(saveButtonAsNew);
-        buttonLayout.setWidthFull(); // Zavzame širino FormLayout, a gumb ne
+        buttonLayout.setWidthFull();
         buttonLayout.setJustifyContentMode(JustifyContentMode.START); // Gumb poravna desno
 
 
@@ -222,12 +222,11 @@ public class AlarmView extends AbstractView {
         alarmGrid.addColumn(Alarm::getChatId).setHeader("Token/Email").setFlexGrow(1).setResizable(true);
         alarmGrid.addComponentColumn(this::createActions).setHeader("Dejanja").setFlexGrow(1).setResizable(true);
         alarmGrid.setWidthFull();
-        //alarmGrid.setHeight("50%");
+
 
         alarmGrid.addSelectionListener(event -> {
 
             if (event.getFirstSelectedItem().isPresent()) {
-
                 showWaterLevels(event.getFirstSelectedItem().get());
             } else {
                 waterLevelsContainer.removeAll();
@@ -235,7 +234,6 @@ public class AlarmView extends AbstractView {
         });
         refreshAlarms();
 
-        //waterLevelsContainer.setWidthFull();
         waterLevelsContainer.setSizeFull();
 
         waterLevelsContainer.setPadding(false);
@@ -250,14 +248,8 @@ public class AlarmView extends AbstractView {
         // Glavni grid
         alarmGrid.setSizeFull();
         alarmGrid.setMinHeight("300px");
-
-
-// Grid, ki se odpre na klik
         waterLevelsContainer.setSizeFull();
 
-
-        //alarmGrid.setAllRowsVisible(true);
-        // waterLevelsContainer.setAllRowsVisible(true);
     }
 
     public void save(boolean asNew) {
@@ -350,8 +342,7 @@ public class AlarmView extends AbstractView {
             ConfirmDialog dialog = new ConfirmDialog();
             dialog.setHeader("Potrditev brisanja");
             dialog.setText("Ali res želite izbrisati alarm za postajo: " + alarm.getStationName() + "?");
-            // Nastavimo gumbe in njihovo obnašanje
-            dialog.setCancelable(true);
+              dialog.setCancelable(true);
             dialog.setCancelText("Prekliči");
 
             dialog.setConfirmText("Izbriši");
@@ -369,7 +360,7 @@ public class AlarmView extends AbstractView {
 
 
             Station station = stationsService.getStationFromId(alarm.getStationId());
-            // Pošljemo testno sporočilo
+
             messengerService.sendNotification(alarm, "To je testno sporočilo za alarm " + station.getName() + ". Nivo alarma je " + alarm.getAlertThresholdLevel() + " cm. " + alarm.getAlertThresholdFlow() + " m³/s.");
         });
 
@@ -384,7 +375,7 @@ public class AlarmView extends AbstractView {
         User user = userService.getLoggedInUser();
 
 
-        // Uporabite userId, da pridobite alarme za tega uporabnika
+
         List<Alarm> userAlarms = alarmService.findTop100ByUserId(user.getId());
         alarmGrid.setItems(userAlarms);
 

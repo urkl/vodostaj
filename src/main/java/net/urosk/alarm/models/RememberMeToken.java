@@ -1,10 +1,15 @@
 package net.urosk.alarm.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "remember_me_tokens")
+@Getter
+@Setter
 public class RememberMeToken {
 
     @Id
@@ -29,16 +34,4 @@ public class RememberMeToken {
         this.lastUsed = lastUsed;
     }
 
-    // Getterji in setterji
-    public String getSeries() { return series; }
-    public void setSeries(String series) { this.series = series; }
-
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-
-    public String getTokenValue() { return tokenValue; }
-    public void setTokenValue(String tokenValue) { this.tokenValue = tokenValue; }
-
-    public LocalDateTime getLastUsed() { return lastUsed; }
-    public void setLastUsed(LocalDateTime lastUsed) { this.lastUsed = lastUsed; }
 }

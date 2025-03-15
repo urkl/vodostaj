@@ -53,7 +53,6 @@ public class MapView extends AbstractView {
         this.userService = userService;
         setPadding(false);
 
-        // Ustvari gumbe za preklop
         Button btnAlarmniVodotoki = new Button("Alarmni vodotoki", e -> {
             showAlarms();
         });
@@ -63,8 +62,6 @@ public class MapView extends AbstractView {
         }
         );
 
-
-        // Postavi gumbe v vrstico
         HorizontalLayout buttonLayout = new HorizontalLayout(btnAlarmniVodotoki, btnTrend);
 
         add(buttonLayout);
@@ -90,7 +87,7 @@ public class MapView extends AbstractView {
         List<Station> stations = stationsService.getStationCache();
         addStationsToMapWithTrendsIndicator(stations);
 
-        // Adjust map view to fit all stations
+
         fitMapToStations(stations);
     }
 
@@ -102,8 +99,6 @@ public class MapView extends AbstractView {
 
         mapContainer.setSizeFull();
 
-
-        // Dodaj privzeti OpenStreetMap sloj
         map.addLayer(new LTileLayer(reg, "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"));
 
         // Nastavi pogled na celotno Slovenijo
@@ -122,7 +117,7 @@ public class MapView extends AbstractView {
         );
         polygonNOC.bindPopup("Kr neki").bindTooltip("različne točke");
 
-        // Dodamo LayerGroup in ga dodamo na mapo
+
         final LLayerGroup lLayerGroupPlaces = new LLayerGroup(reg).addLayer(polygonNOC);
         map.addLayer(lLayerGroupPlaces);
 
@@ -138,7 +133,7 @@ public class MapView extends AbstractView {
         List<Station> stations = stationsService.getStationCache();
         addStationsToMapWithAlarmLevelFlows(stations);
 
-        // Adjust map view to fit all stations
+
         fitMapToStations(stations);
 
     }
@@ -152,7 +147,7 @@ public class MapView extends AbstractView {
     private void addStationsToMapWithTrendsIndicator(List<Station> stations) {
         for (Station station : stations) {
 
-            // Določi ustrezno ikono glede na stanje vode
+
             Trend trend = Utils.getFlowTrend(station.getFlowHistory());
             LIcon icon = getIconForTrend(trend);
 
@@ -304,7 +299,7 @@ public class MapView extends AbstractView {
             maxLng = Math.max(maxLng, lon);
         }
 
-        // Define corner points
+
         LLatLng corner1 = new LLatLng(reg, minLat, minLng);
         LLatLng corner2 = new LLatLng(reg, maxLat, maxLng);
 

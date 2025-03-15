@@ -18,6 +18,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * Alarm Service skrbi za proženje alarmov, glede na scheduled task.
+ */
 @Service
 @EnableScheduling
 @Slf4j
@@ -58,7 +62,7 @@ public class AlarmService {
             ta.setTriggeredAt(LocalDateTime.now());
             ta.setMeasuredValue(waterLevel.getFlow());
 
-// Sporočilo za PRETOK (flow) z ikono 💧
+
             String message = "⚠ ALARM za postajo " + alarm.getStationName() +
                     ": 💧 pretok presega " + alarm.getAlertThresholdFlow() +
                     " (trenutno: " + waterLevel.getFlow() + " m³/s)";
@@ -139,13 +143,12 @@ public class AlarmService {
 
     @Transactional
     public void deleteAlarm(Long alarmId) {
-        // Najprej pridobimo alarm, če obstaja
+        // Najprej pridobim alarm, če obstaja
         Alarm alarm = alarmRepository.findById(alarmId).orElse(null);
         if (alarm != null) {
-            // Pobrišemo vse povezane zapise v TriggeredAlarm
+            // Pobrišem vse povezane zapise v TriggeredAlarm
             triggeredAlarmRepository.deleteAllByAlarm(alarm);
-
-            // Pobrišemo alarm
+            // Pobrišem alarm
             alarmRepository.delete(alarm);
         }
     }

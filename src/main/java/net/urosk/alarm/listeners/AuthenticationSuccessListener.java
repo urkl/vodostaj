@@ -45,7 +45,7 @@ public class AuthenticationSuccessListener {
                     }
             );
         } else if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            // Za primer lokalne prijave ali drugih oblik UserDetails
+
             String username = userDetails.getUsername();
 
             userRepository.findById(username).ifPresentOrElse(
@@ -54,7 +54,7 @@ public class AuthenticationSuccessListener {
                         log.info("Uporabnik že obstaja: " + existingUser.getName());
                     },
                     () -> {
-                        // Shrani novega uporabnika
+                        // TODO: Shrani novega uporabnika
 
                     }
             );
