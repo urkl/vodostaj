@@ -124,9 +124,13 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
 
 
         });
+
         showAlarms.setValue(true);
+        userService.getUserSettingsService().getSettingBoolean(userService.getLoggedInUser(),"showAlarms").ifPresent(showAlarms::setValue);
+
         showAlarms.addValueChangeListener(e -> {
 
+            userService.getUserSettingsService().saveSettingBoolean(userService.getLoggedInUser(),"showAlarms",showAlarms.getValue());
             updateChart(
                     waterLevelsLevels, waterLevelsFlow,
                     timestamps, userAlarmsForStationId, level);
