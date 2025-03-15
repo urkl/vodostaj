@@ -35,7 +35,7 @@ public class Utils {
 
         // Zadnji dve vrednosti
         double prevValue = flowHistory.get(flowHistory.size() - 2);
-        double lastValue = flowHistory.getLast();
+        double lastValue = flowHistory.get(flowHistory.size() - 1);
 
         if (lastValue == 0) {
             return Trend.STABLE;

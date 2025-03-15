@@ -13,7 +13,7 @@ public class MessengerService {
     @Autowired
     private SendGridService sendGridService;
     @Autowired
-    PushNotificationService pushNotificationService;
+    WebPushService webPushService;
     @Value("${telegram.bot.token}")
     private String BOT_TOKEN;
 
@@ -50,16 +50,10 @@ public class MessengerService {
         restTemplate.getForObject(requestUrl, String.class);
     }
 
-    /**
-     * Pošlje push obvestilo na mobilne naprave in brskalnike prek Firebase Cloud Messaging (FCM).
-     * Predpostavlja, da so v konfiguraciji MOBILE_PUSH_API_URL in MOBILE_PUSH_API_KEY pravilno nastavljeni.
-     *
-     * @param deviceToken registracijski token naprave
-     * @param message     vsebina sporočila
-     */
+  
     private void sendMobile(Alarm alarm, String message) {
 
 
-        pushNotificationService.sendPushMessageToUser(alarm.getUser().getId(), "Alarm "+alarm.getStationName(), message);
+        webPushService.sendPushMessageToUser(alarm.getUser().getId(), "Alarm "+alarm.getStationName(), message);
     }
 }

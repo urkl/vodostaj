@@ -5,17 +5,16 @@
 
     <groupId>net.urosk.alarm</groupId>
     <artifactId>alarm-app</artifactId>
-    <version>1.5</version>
+    <version>1.6</version>
     <packaging>jar</packaging>
 
     <properties>
         <java.version>21</java.version>
         <spring-boot.version>3.4.1</spring-boot.version>
-        <vaadin.version>24.6.2</vaadin.version>
+        <vaadin.version>24.6.6</vaadin.version>
         <lombok.version>1.18.30</lombok.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <telegram.version>6.9.7.1</telegram.version>
-        <viber.version>1.0.11</viber.version>
         <vaadin.maps.leaflet.flow.version>4.3.0</vaadin.maps.leaflet.flow.version>
         <docker.image.prefix>registry.gitlab.com/urosk_net/alarm-vodostaj</docker.image.prefix>
         <docker.repo.url>https://registry.gitlab.com/urosk_net/alarm-vodostaj</docker.repo.url>
@@ -52,7 +51,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Spring Boot -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -74,13 +73,20 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>flow-webpush</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>3.4.1</version>
         </dependency>
-        <!-- Lombok -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.80</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -109,22 +115,13 @@
             <artifactId>sendgrid-java</artifactId>
             <version>4.10.3</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+
         <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>1.9.0</version>
         </dependency>
-        <dependency>
-            <groupId>nl.martijndwars</groupId>
-            <artifactId>web-push</artifactId>
-            <version>5.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.69</version>
-        </dependency>
+
 
 
         <!-- Telegram Bot -->
