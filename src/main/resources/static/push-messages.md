@@ -13,4 +13,9 @@ S tem si vedno na tekočem z najnovejšimi informacijami o vodostaju rek in more
 1. **Nastavitvah aplikacije** (če uporabljaš mobilno različico).
 2. **Nastavitvah brskalnika** (za obvestila na računalniku).
 
+## 📌 Kaj je potrebno storiti?
+- **Omogoči obvestila** v nastavitvah aplikacije ali brskalnika.
+- **Nastavi alarme** za reke, ki jih želiš spremljati z opcijo Push obvestil.
+- **Registriraj naprave**, na katerih želiš prejemati obvestila.
+
 📌 **Priporočamo, da omogočiš obvestila, če želiš biti pravočasno obveščen/a o morebitnih nevarnostih.**
