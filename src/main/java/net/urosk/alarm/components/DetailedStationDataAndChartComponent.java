@@ -202,7 +202,7 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
                         alarm.getAlertThresholdFlow(),
                         "Alarm - pretok (m³/s)",
                         "red",
-                        false,"left",1
+                        false,"left",0
                 ));
             } else if (alarm.getAlertThresholdLevel() != 0) {
                 yAxisAnnotations.add(createFlowAnnotation(

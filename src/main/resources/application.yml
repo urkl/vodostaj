@@ -46,4 +46,5 @@ vapid:
 
 logging:
   level:
-    org.springframework.security: DEBUG
+    org.springframework.security: info
+    root: info

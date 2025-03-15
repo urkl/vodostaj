@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @PWA(name = "Urosk Alarm vodostajev", shortName = "Vodostaj")
 @Theme("urosk" )
-
 @Push(PushMode.AUTOMATIC)  // Omogoči WebSockets (Push)
 public class AlarmApplication implements AppShellConfigurator {
     public static void main(String[] args) {

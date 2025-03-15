@@ -12,6 +12,9 @@ Med njimi sem bil tudi jaz, zato sem se odločil razviti aplikacijo, ki bo ljude
 - Prikaz trenutne višine in pretoka, ko nastavljaš alarm
 - Temperatura je izvzeta iz privzetih grafov, ker ni pomembna za alarme
 - Vodostaj si zapomni prijavo
+## Spremembe v verziji 1.0.6
+- Delujoča push obvestila
+- Popravek Y osi pri alarmih - hvala Matjaž
 
 ## 📌 Kaj omogoča aplikacija?
 - Spremljanje trenutnih in zgodovinskih podatkov o vodostaju rek.
