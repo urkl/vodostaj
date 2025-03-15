@@ -26,6 +26,7 @@ import net.urosk.alarm.components.WaterLevelsComponent;
 import net.urosk.alarm.lib.UiUtils;
 import net.urosk.alarm.models.Alarm;
 import net.urosk.alarm.models.Station;
+import net.urosk.alarm.models.User;
 import net.urosk.alarm.services.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -381,18 +382,15 @@ public class AlarmView extends AbstractView {
 
     // Osveži prikaz v Gridu
     private void refreshAlarms() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getLoggedInUser();
 
-        if (authentication != null && authentication.getPrincipal() instanceof OidcUser oidcUser) {
-            String userId = oidcUser.getSubject(); // ali oidcUser.getEmail(), odvisno od tega, kaj želite uporabiti za identifikacijo uporabnika
+
+
 
             // Uporabite userId, da pridobite alarme za tega uporabnika
-            List<Alarm> userAlarms = alarmService.findTop100ByUserId(userId);
+            List<Alarm> userAlarms = alarmService.findTop100ByUserId(user.getId());
             alarmGrid.setItems(userAlarms);
-        } else {
-            // Morda želite zabeležiti napako ali narediti nekaj drugega, če je uporabnik anonimen ali nepričakovane vrste
-            alarmGrid.setItems(List.of()); // prazen seznam
-        }
+
     }
 
     @PostConstruct
