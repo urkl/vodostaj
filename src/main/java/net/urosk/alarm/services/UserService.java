@@ -14,9 +14,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserSettingsService userSettingsService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserSettingsService userSettingsService) {
         this.userRepository = userRepository;
+        this.userSettingsService = userSettingsService;
     }
 
     public User getLoggedInUser() {
@@ -56,5 +58,9 @@ public class UserService {
 
         userRepository.save(user);
 
+    }
+
+    public UserSettingsService getUserSettingsService() {
+        return userSettingsService;
     }
 }
