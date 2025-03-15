@@ -26,19 +26,16 @@ import net.urosk.alarm.components.WaterLevelsComponent;
 import net.urosk.alarm.lib.UiUtils;
 import net.urosk.alarm.models.Alarm;
 import net.urosk.alarm.models.Station;
+import net.urosk.alarm.models.User;
 import net.urosk.alarm.services.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
 import java.util.List;
 import java.util.Locale;
 
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY;
-
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_SUCCESS;
 import static net.urosk.alarm.lib.UiUtils.*;
 import static net.urosk.alarm.views.AlarmView.NotificationMethod.email;
@@ -154,7 +151,7 @@ public class AlarmView extends AbstractView {
 
         Button saveButtonAsNew = new Button("Shrani kot Novega", event -> save(true));
 
-        HorizontalLayout buttonLayout = new HorizontalLayout( saveButtonAsNew);
+        HorizontalLayout buttonLayout = new HorizontalLayout(saveButtonAsNew);
         buttonLayout.setWidthFull(); // Zavzame širino FormLayout, a gumb ne
         buttonLayout.setJustifyContentMode(JustifyContentMode.START); // Gumb poravna desno
 
@@ -381,18 +378,13 @@ public class AlarmView extends AbstractView {
 
     // Osveži prikaz v Gridu
     private void refreshAlarms() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getLoggedInUser();
 
-        if (authentication != null && authentication.getPrincipal() instanceof OidcUser oidcUser) {
-            String userId = oidcUser.getSubject(); // ali oidcUser.getEmail(), odvisno od tega, kaj želite uporabiti za identifikacijo uporabnika
 
-            // Uporabite userId, da pridobite alarme za tega uporabnika
-            List<Alarm> userAlarms = alarmService.findTop100ByUserId(userId);
-            alarmGrid.setItems(userAlarms);
-        } else {
-            // Morda želite zabeležiti napako ali narediti nekaj drugega, če je uporabnik anonimen ali nepričakovane vrste
-            alarmGrid.setItems(List.of()); // prazen seznam
-        }
+        // Uporabite userId, da pridobite alarme za tega uporabnika
+        List<Alarm> userAlarms = alarmService.findTop100ByUserId(user.getId());
+        alarmGrid.setItems(userAlarms);
+
     }
 
     @PostConstruct
