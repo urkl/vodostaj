@@ -154,6 +154,11 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
 
         nav.addItem(telegramItem);
 
+        SideNavItem applePush = new SideNavItem("Apple obvestila", HelpView.class, new RouteParameters("md", "apple_push_guide"));
+        applePush.getElement().setAttribute("title", "Kako prejemati obvestila prek Apple naprav.");
+
+        nav.addItem(applePush);
+
 
         nav.addItem(new SideNavItem(""));
         nav.addItem(new SideNavItem("","/login?logout", logoutButton));

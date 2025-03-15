@@ -19,3 +19,5 @@ S tem si vedno na tekočem z najnovejšimi informacijami o vodostaju rek in more
 - **Registriraj naprave**, na katerih želiš prejemati obvestila.
 
 📌 **Priporočamo, da omogočiš obvestila, če želiš biti pravočasno obveščen/a o morebitnih nevarnostih.**
+
+
