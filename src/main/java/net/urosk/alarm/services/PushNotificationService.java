@@ -53,6 +53,9 @@ public class PushNotificationService {
         }
     }
 
+    public List<PushSubscription> getSubscriptionsForUser(User user) {
+        return pushSubscriptionRepository.findByUser(user);
+    }
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -119,5 +122,9 @@ public class PushNotificationService {
             }
 
         }
+    }
+
+    public void deleteSubscription(PushSubscription pushSubscription) {
+            pushSubscriptionRepository.delete(pushSubscription);
     }
 }

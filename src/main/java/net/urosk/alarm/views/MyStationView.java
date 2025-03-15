@@ -1,7 +1,7 @@
 package net.urosk.alarm.views;
 
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
-import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.vaadin.flow.component.grid.GridVariant.*;
 import static net.urosk.alarm.lib.UiUtils.hr;
 
 @PageTitle("Merilne postaje")
@@ -29,15 +28,20 @@ import static net.urosk.alarm.lib.UiUtils.hr;
 @Route(value = "moje-reke", layout = MainLayout.class)
 public class MyStationView extends AbstractView {
 
-    private final Grid<Station> stationGrid;
+    //private final Grid<Station> stationGrid;
     private final MultiSelectComboBox<Station> stationSelector;
     private final StationsService stationsService;
     private final UserService userService;
     private final User currentUser;
+    private final WaterLevelService waterLevelService;
+    private final AlarmService alarmService;
+    private final VerticalLayout container = new VerticalLayout();
 
     public MyStationView(AlarmService alarmService, UserService userService, StationsService stationsService, WaterLevelService waterLevelService) {
+        this.alarmService = alarmService;
         this.stationsService = stationsService;
         this.userService = userService;
+        this.waterLevelService = waterLevelService;
         this.currentUser = userService.getLoggedInUser();
 
         var allStations = stationsService.getAllStations();
@@ -46,43 +50,17 @@ public class MyStationView extends AbstractView {
         stationSelector.setItems(allStations);
         stationSelector.setItemLabelGenerator(Station::getName);
         stationSelector.addValueChangeListener(e -> {
-            updateGrid();
+            updateView();
             saveSelectedStations();
         });
         stationSelector.setSelectedItemsOnTop(true);
         stationSelector.setAutoExpand(MultiSelectComboBox.AutoExpandMode.BOTH);
 
-
-        stationGrid = new Grid<>(Station.class, false);
-        stationGrid.addThemeVariants(LUMO_COLUMN_BORDERS, LUMO_WRAP_CELL_CONTENT, LUMO_COMPACT);
-
-        stationGrid.addComponentColumn(station -> {
-            VerticalLayout layout = new VerticalLayout();
-            layout.setPadding(false);
-            layout.setSpacing(false);
-            layout.setMargin(false);
-            List<WaterLevel> waterLevels = waterLevelService.getLastXWaterLevelsForStation(station.getId(), 300);
-            Collections.reverse(waterLevels);
-
-
-            DetailedStationDataAndChartComponent detailedStationDataAndChartComponent = new DetailedStationDataAndChartComponent(
-                    station.getId(),
-                              waterLevelService,
-                    stationsService,
-                    alarmService,
-                    userService
-            );
-
-
-            layout.add(detailedStationDataAndChartComponent);
-            //return apexCharts;
-            return layout;
-        }).setAutoWidth(true).setHeader("Graf višin");
-
-        stationGrid.setWidthFull();
-        stationGrid.setItems(List.of()); // Privzeto brez prikaza podatkov
-
-        add(hr(), stationSelector, stationGrid);
+        container.setPadding(false);
+        container.setSpacing(false);
+        container.setWidth("100%");
+        container.setMargin(false);
+        add(hr(), stationSelector, hr(), container);
 
         if (currentUser != null && currentUser.getSelectedStationIds() != null && !currentUser.getSelectedStationIds().isEmpty()) {
             List<String> stationIds = Arrays.stream(currentUser.getSelectedStationIds().split(",")).toList();
@@ -95,9 +73,29 @@ public class MyStationView extends AbstractView {
         }
     }
 
-    private void updateGrid() {
+    public void addStation(Station station) {
+        List<WaterLevel> waterLevels = waterLevelService.getLastXWaterLevelsForStation(station.getId(), 300);
+        Collections.reverse(waterLevels);
+
+
+        DetailedStationDataAndChartComponent detailedStationDataAndChartComponent = new DetailedStationDataAndChartComponent(
+                station.getId(),
+                waterLevelService,
+                stationsService,
+                alarmService,
+                userService
+        );
+
+
+        container.add(detailedStationDataAndChartComponent);
+        container.add(new Hr());
+    }
+
+    private void updateView() {
         Set<Station> selectedStations = stationSelector.getValue();
-        stationGrid.setItems(selectedStations);
+        container.removeAll();
+        selectedStations.forEach(this::addStation);
+
 
     }
 

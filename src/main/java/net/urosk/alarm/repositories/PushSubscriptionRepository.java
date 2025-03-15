@@ -13,4 +13,5 @@ public interface PushSubscriptionRepository extends JpaRepository<PushSubscripti
 
     Optional<PushSubscription> findByUserAndDeviceName(User user, String deviceName);
 
+    List<PushSubscription> findByUser(User user);
 }

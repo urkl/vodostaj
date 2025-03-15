@@ -9,6 +9,7 @@ import com.github.appreciated.apexcharts.config.annotations.YAxisAnnotations;
 import com.github.appreciated.apexcharts.config.annotations.builder.YAxisAnnotationsBuilder;
 import com.github.appreciated.apexcharts.config.builder.*;
 import com.github.appreciated.apexcharts.config.chart.Type;
+import com.github.appreciated.apexcharts.config.chart.builder.ToolbarBuilder;
 import com.github.appreciated.apexcharts.config.stroke.Curve;
 import com.github.appreciated.apexcharts.config.tooltip.builder.YBuilder;
 import com.github.appreciated.apexcharts.config.xaxis.builder.LabelsBuilder;
@@ -42,7 +43,7 @@ import static net.urosk.alarm.lib.Utils.getCssClassForFlowString;
 public class DetailedStationDataAndChartComponent extends VerticalLayout {
 
     VerticalLayout chartContainer = new VerticalLayout();
-    Checkbox showAlarms = new Checkbox("Prikaži alarme");
+    Checkbox showAlarms = new Checkbox("Prikaži visokovodne nivoje");
     private ApexCharts apexCharts;
     private boolean showLast24Hours = false;
     private Button toggleButton;
@@ -82,7 +83,7 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
                 new Hr(),
 
                 flowsAndLevels,
-                new NativeLabel("Zadnji pretoki: " + station.getFlowHistory().toString()),
+           //     new NativeLabel("Zadnji pretoki: " + station.getFlowHistory().toString()),
                 new Hr()
         );
 
@@ -134,12 +135,15 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
 
 
         HorizontalLayout buttonContainer = new HorizontalLayout();
+        buttonContainer.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
         buttonContainer.add(toggleButton,showAlarms);
 
 
         add(buttonContainer);
         chartContainer.setSizeFull();
         chartContainer.setPadding(false);
+        chartContainer.setMargin(false);
+        chartContainer.setSpacing(false);
         add(chartContainer);
         // Create and display initial chart
         updateChart(
@@ -191,6 +195,25 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
         // Create Y-axis annotations
         List<YAxisAnnotations> yAxisAnnotations = new ArrayList<>();
 
+        // Add user alarms
+        for (Alarm alarm : userAlarmsForStationId) {
+            if (alarm.getAlertThresholdFlow() != 0) {
+                yAxisAnnotations.add(createFlowAnnotation(
+                        alarm.getAlertThresholdFlow(),
+                        "Alarm - pretok (m³/s)",
+                        "red",
+                        false,"left",1
+                ));
+            } else if (alarm.getAlertThresholdLevel() != 0) {
+                yAxisAnnotations.add(createFlowAnnotation(
+                        alarm.getAlertThresholdLevel(),
+                        "Alarm - nivo (cm)",
+                        "red",
+                        false,"left",1
+                ));
+            }
+        }
+
         if (currentLevel.getFlow1() > 0 && showAlarms.getValue()) {
 
             // First threshold (blue/primary)
@@ -198,7 +221,7 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
                     currentLevel.getFlow1(),
                     "Prvi visokovodni pretok (m³/s)",
                     "#3f51b5", // text-primary
-                    true
+                    true,"right",0
             ));
 
             // Second threshold (yellow/warning)
@@ -206,7 +229,7 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
                     currentLevel.getFlow2(),
                     "Drugi visokovodni pretok (m³/s)",
                     "#ffeb3b", // text-warning
-                    true
+                    true,"right",0
             ));
 
             // Third threshold (red/error)
@@ -214,28 +237,11 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
                     currentLevel.getFlow3(),
                     "Tretji visokovodni pretok (m³/s)",
                     "#f44336", // text-error
-                    true
+                    true,"right",0
             ));
 
 
-            // Add user alarms
-            for (Alarm alarm : userAlarmsForStationId) {
-                if (alarm.getAlertThresholdFlow() != 0) {
-                    yAxisAnnotations.add(createFlowAnnotation(
-                            alarm.getAlertThresholdFlow(),
-                            "Alarm - pretok (m³/s)",
-                            "#FF0000",
-                            false
-                    ));
-                } else if (alarm.getAlertThresholdLevel() != 0) {
-                    yAxisAnnotations.add(createFlowAnnotation(
-                            alarm.getAlertThresholdLevel(),
-                            "Alarm - nivo (cm)",
-                            "#FF0000",
-                            false
-                    ));
-                }
-            }
+
         }
         // Create annotations config
         Annotations annotations = new Annotations();
@@ -272,7 +278,10 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
         ApexChartsBuilder chartBuilder = ApexChartsBuilder.get()
                 .withChart(ChartBuilder.get()
                         .withType(Type.LINE)
+                        .withToolbar(ToolbarBuilder.get()
+                                .withShow(false).build())
                         .build())
+
                 .withStroke(StrokeBuilder.get()
                         .withCurve(Curve.SMOOTH)
                         .build())
@@ -312,24 +321,34 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
         chartContainer.add(apexCharts);
     }
 
-    private YAxisAnnotations createFlowAnnotation(double value, String label, String color, boolean isDashed) {
+    private YAxisAnnotations createFlowAnnotation(double value, String label, String color, boolean isDashed , String labelPosition, int yAxisIndex) {
+
+        double offsetX = labelPosition.equals("left") ? 60.0 : 0.0; // Premik na desno, če je na levi strani
 
         AnnotationLabel annotationLabel = new AnnotationLabel();
         annotationLabel.setText(label + ": " + getFormatedNumber(value));
 
         AnnotationStyle annotationStyle = new AnnotationStyle();
         annotationStyle.setColor(color);
+
         annotationStyle.setCssClass("flow-annotation");
         annotationLabel.setStyle(annotationStyle);
-
         annotationLabel.setBorderWidth(0d); // Odstrani okvir
-        annotationLabel.setBorderColor(color); // Ali nastavi na `null`, da se ne uporablja
+        annotationLabel.setBorderColor(null); // Ali nastavi na `null`, da se ne uporablja
+        annotationLabel.setPosition(labelPosition);
+        annotationLabel.setOffsetX(offsetX);
+
+
 
         YAxisAnnotationsBuilder builder = YAxisAnnotationsBuilder.get()
                 .withY(value)
-                .withFillColor(color)
+          //      .withOpacity(0.0)
+             //   .withFillColor("red")
+                .withYAxisIndex((double)yAxisIndex)
+                //.withOffsetX(offsetX)
                 .withBorderColor(color)
                 .withLabel(annotationLabel);
+
 
         if (isDashed) {
             builder.withStrokeDashArray(5.0);

@@ -160,8 +160,8 @@ public class UiUtils {
             container.add(createBadge(station.getLevel3(), LEVEL_UNIT, "Tretji visokovodni nivo (Poplave na širšem območju)", "error"));
         }
 
-        container.add(new Span("Trenutni pretok: " + getFormatedNumber(station.getTempCurrentFlow()) + " " + FLOW_UNIT));
-        container.add(new Span("Trenutna višina: " + getFormatedNumber(station.getTempCurrentLevel()) + " " + LEVEL_UNIT));
+        //container.add(new Span("Trenutni pretok: " + getFormatedNumber(station.getTempCurrentFlow()) + " " + FLOW_UNIT));
+        //container.add(new Span("Trenutna višina: " + getFormatedNumber(station.getTempCurrentLevel()) + " " + LEVEL_UNIT));
 
         return container;
     }
