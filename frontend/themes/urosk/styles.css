@@ -41,5 +41,6 @@ vaadin-app-layout::part(navbar) {
 .flow-annotation{
     font-weight: bold;
     font-family: var(--lumo-font-family);
-
+    background: transparent !important;
+    box-shadow: none !important;
 }

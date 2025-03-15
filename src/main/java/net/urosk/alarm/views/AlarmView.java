@@ -366,8 +366,11 @@ public class AlarmView extends AbstractView {
         Button sendTestMsgButton = new Button("Test");
         sendTestMsgButton.setTooltipText("Pošlji testno sporočilo");
         sendTestMsgButton.addClickListener(event -> {
+
+
+            Station station = stationsService.getStationFromId(alarm.getStationId());
             // Pošljemo testno sporočilo
-            messengerService.sendNotification(alarm, "Testno sporočilo");
+            messengerService.sendNotification(alarm, "To je testno sporočilo za alarm " + station.getName() + ". Nivo alarma je " + alarm.getAlertThresholdLevel() + " cm. " + alarm.getAlertThresholdFlow() + " m³/s.");
         });
 
         HorizontalLayout actionsLayout = new HorizontalLayout();
