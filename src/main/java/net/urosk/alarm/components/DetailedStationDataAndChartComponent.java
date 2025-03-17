@@ -258,6 +258,9 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
                 .withOpposite(false) // Primarna os (leva)
                 .withTitle(titleFlow)
                 .withMax(maxFlowY)
+                .withLabels(com.github.appreciated.apexcharts.config.yaxis.builder.LabelsBuilder.get()
+                        .withFormatter("function(value) { return new Intl.NumberFormat('sl-SI', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value); }")
+                        .build())
                 .build();
 
 
@@ -267,6 +270,9 @@ public class DetailedStationDataAndChartComponent extends VerticalLayout {
                 .withMax(maxLevelY)
                 .withOpposite(true) // Sekundarna os (desna)
                 .withTitle(titleLevel)
+                .withLabels(com.github.appreciated.apexcharts.config.yaxis.builder.LabelsBuilder.get()
+                        .withFormatter("function(value) { return new Intl.NumberFormat('sl-SI', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value); }")
+                        .build())
                 .build();
         BigDecimal tickAmount = BigDecimal.valueOf(Math.min(20, timestamps.size() / 20)); // Prikaže največ 10 oznak
 
