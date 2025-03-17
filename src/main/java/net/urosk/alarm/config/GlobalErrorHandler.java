@@ -13,7 +13,7 @@ public class GlobalErrorHandler implements ErrorHandler {
     @Override
     public void error(ErrorEvent event) {
         Throwable throwable = event.getThrowable();
-        throwable.printStackTrace();
+
 
         log.error("Error during request", throwable);
         String errorMessage = "⚠ VAADIN ERROR: " + throwable.getMessage();

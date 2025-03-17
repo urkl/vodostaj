@@ -4,6 +4,13 @@ import com.vaadin.flow.component.UI;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
+/**
+ * Broadcaster class for sending messages to the UI.
+ * This class is thread-safe.
+ * It uses a ConcurrentHashMap to store the user's UI and a listener for each user.
+ *
+ *
+ */
 public class Broadcaster {
     private static final ConcurrentHashMap<String, UI> userUIMap = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, BiConsumer<String, String>> listeners = new ConcurrentHashMap<>();

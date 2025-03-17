@@ -14,7 +14,8 @@ import net.urosk.alarm.services.UtilService;
 public class HelpView extends AbstractView implements BeforeEnterObserver {
 
 
-    private  final  UtilService utilService;
+    private final UtilService utilService;
+
     public HelpView(UtilService utilService) {
         this.utilService = utilService;
         setSizeFull();
@@ -25,15 +26,12 @@ public class HelpView extends AbstractView implements BeforeEnterObserver {
     }
 
 
-
-
-
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
         String mdParam = event.getRouteParameters().get("md").orElse("default");
 
         removeAll();
-        add( utilService.getHtmlElementFromMarkdown(mdParam+".md"));
+        add(utilService.getHtmlElementFromMarkdown(mdParam + ".md"));
 
     }
 

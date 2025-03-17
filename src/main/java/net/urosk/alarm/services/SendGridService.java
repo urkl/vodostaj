@@ -13,8 +13,14 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+/**
+ * SendGridService je namenjen pošiljanju e-pošte preko SendGrid API-ja.
+ * Po vsej verjetnosti bom to ukinil, ker mi počasi pobira kredite na Twillio SendGrid računu.
+ *
+ */
 @Service
 @Slf4j
+
 public class SendGridService {
 
     @Value("${sendgrid.api.key}")

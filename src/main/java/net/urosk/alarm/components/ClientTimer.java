@@ -4,6 +4,9 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.server.Command;
 
+/**
+ * A client-side timer component that triggers a callback at a specified interval.
+ */
 @Tag("div")
 public class ClientTimer extends Component {
 

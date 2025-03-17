@@ -49,16 +49,16 @@ public class StationsService {
 
         stations.forEach(station -> {
 
-            //log.info("🔄 Osveževanje podatkov za postajo: {}", station.getName());
+
             WaterLevel waterLevel = waterLevelRepository.findTopByStationIdOrderByDateDesc(station.getId());
 
 
-            // Pridobite zadnjih 5 meritev za postajo
+            // Zadnjih 5 meritev za postajo
             List<WaterLevel> history = waterLevelRepository.findByStationIdOrderByDateDesc(station.getId(), PageRequest.of(0, 5));
 
             history=history.reversed();
 
-            // Izluščite podatke o pretoku
+
             List<Double> flowHistory = history.stream()
                     .map(WaterLevel::getFlow)
                     .toList();
@@ -76,7 +76,8 @@ public class StationsService {
     }
 
     /**
-     * Inicialno napolni tabelo stations z unikatnimi postajami iz WaterLevel.
+     * Inicialno napolni tabelo stations z unikatnimi postajami iz WaterLevel, da je boljša uporabniška izkušnja.
+     * Itak dobivamo podatke na 30 minut, pa še to so zakasnjeni.
      */
     @PostConstruct
     public void initializeStations() {

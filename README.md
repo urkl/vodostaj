@@ -48,6 +48,11 @@ Aplikacija je primerna za **posameznike, kmetovalce, gasilce, civilno zaščito*
 ### ⚠️ **[Sproženi alarmi](sprozeni-alarmi)**
 - Seznam **vseh alarmov**, ki so bili sproženi na podlagi nastavljenih mejnih vrednosti.
 
+
+## TODO
+
+- [ ] Optimizacija in revizijski pregled kode
+- [ ] Več testov
 ---
 
 ## 🔔 Pošiljanje Obvestil 

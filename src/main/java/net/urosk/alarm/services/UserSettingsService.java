@@ -14,11 +14,9 @@ import java.util.Optional;
 public class UserSettingsService {
 
     private final UserSettingsRepository settingsRepository;
-    private final UserRepository userRepository;
 
     public UserSettingsService(UserSettingsRepository settingsRepository, UserRepository userRepository) {
         this.settingsRepository = settingsRepository;
-        this.userRepository = userRepository;
     }
 
     /**

@@ -67,7 +67,6 @@ public class WaterLevelService {
      * Izvajanje: 00:05, 00:35, 01:05, 01:35, ..., 23:05, 23:35 NON-STOP
      */
     @Scheduled(cron = "0 5,35 * * * *")
-
     public void fetchAndSaveWaterLevels() {
         try {
             log.info("🔄 Pridobivanje novih vodostajev...");
