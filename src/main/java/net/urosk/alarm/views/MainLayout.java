@@ -121,6 +121,11 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
 
         nav.addItem(item3);
 
+        SideNavItem weather = new SideNavItem("Vreme", WeatherView.class);
+        weather.getElement().setAttribute("title", "Preglej vremensko napoved za Slovenijo.");
+
+        nav.addItem(weather);
+
         SideNavItem item4 = new SideNavItem("Zemljevid", MapView.class);
         item4.getElement().setAttribute("title", "Oglej si vodostaje rek na zemljevidu.");
 
